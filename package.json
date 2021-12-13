@@ -1,11 +1,11 @@
 {
   "name": "demo ",
   "description": "demo Interface",
-  "homepage": "https://falchion123.github.io/demo"
+  "homepage": "https://falchion123.github.io/demo",
   
   "dependencies": {
     "gh-pages": "^3.2.3"
-  }
+  },
   "scripts": {
     "deploy": "gh-pages -d build" 
   },
