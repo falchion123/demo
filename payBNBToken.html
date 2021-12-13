@@ -1,0 +1,408 @@
+<html>
+<head>
+    <title>代币支付</title>
+    <link rel="shortcut icon" href="http://pbs.twimg.com/profile_images/802481220340908032/M_vde_oi_400x400.jpg" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="./js/matamaskPay.js" type="text/javascript"  charset="UTF-8"></script>
+</head>
+<body>
+<style>
+    body{ text-align:center}
+    .main{width: 600px;display:inline-block;}
+    .main div{margin-top: 10px}
+    .main input{margin-top: 10px;height: 25px;}
+    .main .pay{text-align: left}
+    .main .btnPay{height: 40px}
+</style>
+<div class="main">
+
+
+    <div class="pay">
+        <div><img src="https://image.spreadshirtmedia.com/image-server/v1/products/1048915601,width=300,height=300,appearanceId=2.png"></div>
+        商品总额：100 bss
+
+        <hr>
+        <!--    <button class="Web3Button">获取我信息</button>-->
+        <div>我账户: <span class="showAccount"></span></div>
+        <div>余&nbsp;&nbsp;&nbsp;额: <span class="showBalance"></span></div>
+        <div>商家账户: <span class="showMerchantAccount"></span></div>
+        <div>转账金额: <span class="showMerchantBalance" style="color: red"></span> bss</div>
+        <hr>
+
+        <div>测试合地址为：0x60252055853a1b2688a2473f5e455063b787252d </div>
+        <div>网络: Binance Smart Chain测试网络</div>
+        <hr>
+        <div>
+            <button class="btnPay">确定支付</button>
+        </div>
+
+    </div>
+
+
+
+
+    <div align="right"> <a href="/">返回</a></div>
+
+</div>
+</body>
+</html>
+<script>
+
+    //操作流程
+    const showAccount = document.querySelector('.showAccount');
+    const showBalance = document.querySelector('.showBalance');
+    const showMerchantAccount = document.querySelector('.showMerchantAccount');
+    const showMerchantBalance = document.querySelector('.showMerchantBalance');
+
+    const cont = document.querySelector('.cont');
+
+    const btnPay = document.querySelector('.btnPay');
+
+
+    // web3.eth.getCoinbase((err, coinbase) => {
+    //     if (err) {
+    //         reject(new Error('Unable to retrieve coinbase'))
+    //     } else {
+    //         console.log(coinbase,'coinbase')
+    //     }
+    // })
+
+    toAccountValue = "0xA0613b0efFeB310b117A33E5BAa7e45Aff81dcDe";
+    toBalanceValue = '100';
+    orderNo = "dsl000000123asdf";
+    contractAddr = "0x60252055853a1b2688a2473f5e455063b787252d"
+    abi = [
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "name",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_spender",
+                    "type": "address"
+                },
+                {
+                    "name": "_value",
+                    "type": "uint256"
+                }
+            ],
+            "name": "approve",
+            "outputs": [
+                {
+                    "name": "success",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "totalSupply",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_from",
+                    "type": "address"
+                },
+                {
+                    "name": "_to",
+                    "type": "address"
+                },
+                {
+                    "name": "_value",
+                    "type": "uint256"
+                }
+            ],
+            "name": "transferFrom",
+            "outputs": [
+                {
+                    "name": "success",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "decimals",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint8"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_value",
+                    "type": "uint256"
+                }
+            ],
+            "name": "burn",
+            "outputs": [
+                {
+                    "name": "success",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "name": "balanceOf",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_from",
+                    "type": "address"
+                },
+                {
+                    "name": "_value",
+                    "type": "uint256"
+                }
+            ],
+            "name": "burnFrom",
+            "outputs": [
+                {
+                    "name": "success",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "symbol",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_to",
+                    "type": "address"
+                },
+                {
+                    "name": "_value",
+                    "type": "uint256"
+                }
+            ],
+            "name": "transfer",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_spender",
+                    "type": "address"
+                },
+                {
+                    "name": "_value",
+                    "type": "uint256"
+                },
+                {
+                    "name": "_extraData",
+                    "type": "bytes"
+                }
+            ],
+            "name": "approveAndCall",
+            "outputs": [
+                {
+                    "name": "success",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                },
+                {
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "name": "allowance",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "name": "initialSupply",
+                    "type": "uint256"
+                },
+                {
+                    "name": "tokenName",
+                    "type": "string"
+                },
+                {
+                    "name": "tokenSymbol",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "name": "from",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "name": "value",
+                    "type": "uint256"
+                }
+            ],
+            "name": "Transfer",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "name": "from",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "name": "value",
+                    "type": "uint256"
+                }
+            ],
+            "name": "Burn",
+            "type": "event"
+        }
+    ]
+
+    showMerchantAccount.innerHTML = toAccountValue
+    showMerchantBalance.innerHTML = toBalanceValue
+    dss.contractInit(abi,contractAddr)
+    dss.getTokenAccount((account,balance)=>{
+        showAccount.innerHTML = account;
+        showBalance.innerHTML = balance +' dss';
+    })
+
+    // 转账
+    btnPay.addEventListener('click', () => {
+        var r = confirm("确认转账吗？");
+        if (r == true) {
+
+            dss.tokenPayment(toAccountValue,toBalanceValue,function(action,result){
+                    if(action==dss.txResp.transactionHash){
+                        console.log("用户提交支付:"+result);
+                        btnPay.innerText="支付中..."
+                        btnPay.disabled = "disabled"
+                    }else if(action==dss.txResp.receipt){
+                        console.log("用户完成支付");
+                        btnPay.innerText="支付完成"
+                        dss.getTokenAccount((account,balance)=>{
+                            showAccount.innerHTML = account;
+                            showBalance.innerHTML = balance +' dss';
+                        })
+                    }else if(action==dss.txResp.error){
+                        console.log("用户支付失败，请重新支付！");
+                        btnPay.enabled = "enabled"
+                        btnPay.innerText="重新支付"
+                    }
+            });
+        }
+        else {
+            alert("您已经取消转账！");
+        }
+    });
+
+</script>

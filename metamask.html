@@ -1,0 +1,61 @@
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<div id="app">
+    <button class="enableEthereumButton">Enable Ethereum</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</div>
+</body>
+</html>
+<script>
+
+    window.addEventListener('load', function() {
+        if (window.ethereum) {
+            web3 = new  Web3(window.ethereum);
+            try {
+                // 请求用户授权
+                window.ethereum.enable();
+            } catch (error) {
+                // 用户不授权时
+                console.error("User denied account access")
+            }
+        }
+        if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+            if (web3.currentProvider.isMetaMask == true) {
+                console.log("MetaMask可用")
+            } else {
+                console.log( "非MetaMask环境")
+            }
+        } else {
+            $("#env").html("No web3? 需要安装<a href='https://metamask.io/'>MetaMask</a>!");
+        }
+
+        // web3.eth.getAcounts(function(err,accounts){
+        //
+        //     if(accounts.length ==0 ){
+        //         $("#account").html("请栓查钱包是否解锁")
+        //     }
+        // });
+    })
+
+    const ethereumButton = document.querySelector('.enableEthereumButton');
+
+    ethereumButton.addEventListener('click', () => {
+        //Will Start the metamask extension
+
+        ethereum.request({ method: 'eth_requestAccounts' }).then(function(accounts){
+            console.log(accounts)
+        });
+        console.log("111111111111")
+    });
+
+
+
+
+
+</script>

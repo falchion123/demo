@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="./js/matamaskPay.js" type="text/javascript"  charset="UTF-8"></script>
+</head>
+<body>
+<div align="center"> <a href="/">返回</a></div>
+</body>
+</html>
+
+<script>
+
+let chainId=97
+let chainName = 'Binance Smart Chain - Testnet'
+    let currencyName= 'Binance Coin'
+        let currencySymbol='BNB'
+       let  currencyDecimals= 18
+
+   let  rpcUrls =  ['https://data-seed-prebsc-1-s1.binance.org:8545/']
+   let  blockExplorerUrls =  ['https://testnet.bscscan.com']
+dss.chainAdd(chainId,chainName,currencyName,currencySymbol,currencyDecimals,rpcUrls,blockExplorerUrls);
+
+
+
+
+
+</script>

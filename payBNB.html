@@ -1,0 +1,104 @@
+<html>
+<head>
+    <title>币安币支付</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="./js/matamaskPay.js" type="text/javascript"  charset="UTF-8"></script>
+</head>
+<body>
+<div>
+
+
+    <div>
+        <div><img src="https://image.spreadshirtmedia.com/image-server/v1/products/1048915601,width=300,height=300,appearanceId=2.png"></div>
+        商品总额：2000 元（  100 BNB)
+
+        <hr>
+        <!--    <button class="Web3Button">获取我信息</button>-->
+        <div>我账户: <span class="showAccount"></span></div>
+        <div>余&nbsp;&nbsp;&nbsp;额: <span class="showBalance"></span></div>
+        <div>商家账户: <span class="showMerchantAccount"></span></div>
+        <div>转账金额: <span class="showMerchantBalance" style="color: red"></span> BNB</div>
+        <hr>
+
+
+        <div>
+            <button class="btnPay">确定支付</button>
+        </div>
+
+    </div>
+
+
+    <div align="center"> <a href="/">返回</a></div>
+
+
+
+</div>
+</body>
+</html>
+<script>
+
+    //操作流程
+    const showAccount = document.querySelector('.showAccount');
+    const showBalance = document.querySelector('.showBalance');
+    const showMerchantAccount = document.querySelector('.showMerchantAccount');
+    const showMerchantBalance = document.querySelector('.showMerchantBalance');
+
+    const cont = document.querySelector('.cont');
+
+    const btnPay = document.querySelector('.btnPay');
+
+
+    // web3.eth.getCoinbase((err, coinbase) => {
+    //     if (err) {
+    //         reject(new Error('Unable to retrieve coinbase'))
+    //     } else {
+    //         console.log(coinbase,'coinbase')
+    //     }
+    // })
+
+    // toAccountValue = "0xA0613b0efFeB310b117A33E5BAa7e45Aff81dcDe";
+    toAccountValue = "0x8126C1162D1bF62d2abb647e8E7cC13f30BBd2F6";
+    toBalanceValue = '0.2';
+    orderNo = "dsl000000123asdf";
+
+
+    showMerchantAccount.innerHTML = toAccountValue
+    showMerchantBalance.innerHTML = toBalanceValue
+
+    dss.getAccount((account,balance)=>{
+        showAccount.innerHTML = account;
+        showBalance.innerHTML = `${balance} BNB`;
+    })
+
+
+
+    // 转账
+    btnPay.addEventListener('click', () => {
+        var r = confirm("确认转账吗？");
+        if (r == true) {
+            dss.payment(toAccountValue,toBalanceValue,orderNo,function(action,result){
+                if(action==dss.txResp.transactionHash){
+                    console.log("用户提交支付:"+result);
+                    btnPay.innerText="支付中..."
+                    btnPay.disabled = "disabled"
+                }else if(action==dss.txResp.receipt){
+                    console.log("用户完成支付");
+                    btnPay.innerText="支付完成"
+                    dss.getAccount((account,balance)=>{
+                        showAccount.innerHTML = account;
+                        showBalance.innerHTML = `${balance} BNB`;
+                    })
+                }else if(action==dss.txResp.error){
+                    console.log("用户支付失败，请重新支付！");
+                    btnPay.enabled = "enabled"
+                    btnPay.innerText="重新支付"
+                }
+            });
+        }
+        else {
+            alert("您已经取消转账！");
+        }
+    });
+
+</script>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
+<script src="./js/getWeb3.js" type="text/javascript" charset="UTF-8"></script>
+</head>
+<body>
+<input id="data-value" type="text" placeholder="Enter a number">
+<button class="set">Set Data!</button>
+</body>
+</html>
+
+<script>
+
+//var Eth = require('ethjs-query');
+//var EthContract = require('ethjs-contract');
+
+var Eth = window.Eth;
+console.log(Eth)
+if (typeof web3 !== 'undefined') {
+    eth = new Eth(web3.currentProvider);
+    startApp();
+} else {
+    alert("No currentProvider for web3");
+}
+
+
+
+function startApp() {
+
+   const abi = [ { "constant": true, "inputs": [], "name": "data", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view",  "type": "function" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "_from", "type": "address" }, { "indexed": false, "name": "value", "type":    "uint256" } ], "name": "Set", "type": "event" }, { "constant": false, "inputs": [ { "name": "x", "type": "uint256" } ], "name": "set", "outputs": [],  "payable": false, "stateMutability": "nonpayable", "type": "function" } ];
+    const addresss = '0x06e1c13546e04514a0cf8d842216a84745ac317a';
+    const SimpleStorage = eth.contract(abi);
+    const simpleStorage = SimpleStorage.at(addresss);
+    // Listen to clicks from a <button> that trigger a function call of contract 
+
+    listenForClicks(simpleStorage);
+}
+
+function listenForClicks(simpleStorage) {
+    var button = document.querySelector('button.set');
+    button.addEventListener('click', function() {
+        var value = document.getElementById('data-value').value;
+        simpleStorage.set(value, { from: "0x5b3933d3d0d3880F6C79E57F676D10F67E057AcC" }, function(error, result) {
+            if (error) {
+                 console.debug(error);
+                 return;
+            }  
+            // will return txHash as result
+            console.debug(result);
+        })
+   })
+}			
+
+
+</script>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+<script src="./js/getWeb3.js" type="text/javascript" charset="UTF-8"></script>
+</head>
+<body>
+支付列表（正式环境）<br/>
+<ul>
+    <li><a href="pay.html">ETH币支付</a> </li>
+</ul>
+<ul>
+    <li><a href="payBNB1.html">BNB币支付</a> </li>
+</ul>
+支付列表（测试环境）<br/>
+<ul>
+    <li><a href="paytest.html">ETH币支付</a> </li>
+</ul>
+<ul>
+    <li><a href="payBNBtest.html">BNB币支付</a> </li>
+</ul>
+代币支付列表（测试环境）
+<ul>
+    <li><a href="payToken.html">eth token币支付</a> </li>
+</ul>
+<ul>
+    <li><a href="payBNBToken.html">BNB token币支付</a> </li>
+</ul>
+Token Add (test)<br/>
+
+<ul>
+    <li><a href="tokenAdd.html">Token Add</a> </li>
+</ul>
+<ul>
+    <li><a href="BnbTokenAdd.html">BNB Token Add</a> </li>
+</ul>
+
+Chain Add<br/>
+
+<ul>
+    <li><a href="bnbChainAdd.html"> Binance Smart Chain Add</a> </li>
+    <li><a href="bnbTestChainAdd.html"> Binance Smart Chain - testnet Add</a> </li>
+</ul>
+</body>
+
+</html>
+
+<script>
+
+//回调
+/**
+web3.eth.getBlock(48, function(error, result){
+    if(!error)
+        console.log(JSON.stringify(result));
+    else
+        console.error(error);
+})
+**/
+
+var accounts = web3.eth.accounts;
+
+
+
+
+
+
+
+</script>
